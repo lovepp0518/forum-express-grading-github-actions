@@ -2,15 +2,17 @@ const express = require('express')
 const router = express.Router()
 
 // 載入 controller
-const restController = require('../controllers/restaurant-controller')
-
-// 載入 admin.js
 const admin = require('./modules/admin')
 
-// 載入 admin.js
+const restController = require('../controllers/restaurant-controller')
+
+const userController = require('../controllers/user-controller')
+
 router.use('/admin', admin)
 
-// 載入 controller
+router.get('/signup', userController.signUpPage)
+router.post('/signup', userController.signUp)
+
 router.get('/restaurants', restController.getRestaurants)
 
 router.use('/', (req, res) => res.redirect('/restaurants'))
