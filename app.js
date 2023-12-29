@@ -1,6 +1,7 @@
 const express = require('express')
 const handlebars = require('express-handlebars') // 引入 express-handlebars
 const flash = require('connect-flash')
+const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('./config/passport')
 const { getUser } = require('./helpers/auth-helpers')
@@ -9,6 +10,7 @@ const routes = require('./routes')
 const app = express()
 const port = process.env.PORT || 3000
 const SESSION_SECRET = 'secret'
+app.use(methodOverride('_method'))
 
 // 註冊 Handlebars 樣板引擎，並指定副檔名為 .hbs
 app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
