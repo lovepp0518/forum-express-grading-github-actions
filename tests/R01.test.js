@@ -101,7 +101,6 @@ describe('# R01', () => {
         const req = mockRequest({ params: { id: 1 } }) // 帶入 params.id = 1，對 PATCH /admin/users/1 發出請求
         const res = mockResponse()
         const next = mockNext
-
         // 測試作業指定的 adminController.patchUser 函式
         await this.adminController.patchUser(req, res, next)
 
