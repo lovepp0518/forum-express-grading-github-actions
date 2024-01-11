@@ -23,7 +23,11 @@ passport.use(new LocalStrategy(
           return cb(null, user)
         })
       })
-      .catch()
+
+      .catch(err => {
+        console.log(err)
+        if (err) throw new Error('err')
+      })
   }
 ))
 // serialize and deserialize user
