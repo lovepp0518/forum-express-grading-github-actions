@@ -23,6 +23,7 @@ passport.use(new LocalStrategy(
           return cb(null, user)
         })
       })
+      .catch()
   }
 ))
 // serialize and deserialize user
