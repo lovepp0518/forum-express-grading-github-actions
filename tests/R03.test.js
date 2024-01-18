@@ -15,8 +15,8 @@ describe('# R03', () => {
           .stub(helpers, 'ensureAuthenticated')
           .returns(true)
         this.getUser = sinon.stub(helpers, 'getUser').returns({ id: 1 })
-       // 製作假資料
-       // 本 context 會用這筆資料進行測試
+        // 製作假資料
+        // 本 context 會用這筆資料進行測試
         this.UserMock = createModelMock('User', [{
           id: 1,
           email: 'root@example.com',
@@ -44,7 +44,7 @@ describe('# R03', () => {
         res.render.getCall(0).args[0].should.equal('users/profile')
         res.render.getCall(0).args[1].user.id.should.equal(1)
       })
-      
+
       // 測試完畢，清除資料
       after(async () => {
         // 清除模擬驗證資料
@@ -127,7 +127,7 @@ describe('# R03', () => {
           user: {id: 1},
           params: { id: 1 },
           body: { name: 'admin2' },
-        }) 
+        })
         const res = mockResponse()
         const next = mockNext
 

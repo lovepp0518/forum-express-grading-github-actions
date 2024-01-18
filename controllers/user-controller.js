@@ -1,6 +1,8 @@
+const { localFileHandler } = require('../helpers/file-helpers')
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const { User } = db
+
 const userController = {
   signUpPage: (req, res) => {
     res.render('signup')
@@ -14,7 +16,7 @@ const userController = {
       .then(user => {
         if (user) throw new Error('Email already exists!')
         return bcrypt.hash(req.body.password, 10)
-      // 前面加 return讓這個 Promise resolve 的值可以傳到下一個 .then 裡面，下一個 .then 裡面的參數 hash 就會是加密過後的密碼。這種寫法可以減少巢狀層級，讓程式碼比較好讀。
+        // 前面加 return讓這個 Promise resolve 的值可以傳到下一個 .then 裡面，下一個 .then 裡面的參數 hash 就會是加密過後的密碼。這種寫法可以減少巢狀層級，讓程式碼比較好讀。
       })
       .then(hash => User.create({
         name: req.body.name,
@@ -38,7 +40,49 @@ const userController = {
     req.flash('success_messages', '登出成功！')
     req.logout()// session原生功能，會清掉登入瀏覽器中的session視同登出
     res.redirect('/signin')
-  }
+  },
+  getUser: (req, res, next) => {
+    const id = req.params.id
+    return User.findByPk(id, {
+      raw: true
+    })
+      .then(user => res.render('users/profile', { user }))
+      .catch(err => next(err))
+  },
+  editUser: (req, res, next) => {
+    const id = req.params.id
+    return User.findByPk(id, { raw: true })
+      .then(user => {
+        if (!user) throw new Error("User didn't exist!")
+        return res.render('users/edit', { user })
+      })
+      .catch(err => next(err))
+  },
+  putUser: (req, res, next) => {
+    const id = req.params.id
+    const userId = req.user.id
+    const { name } = req.body
+    const { file } = req
 
+    // 比對被修改profile的user跟登入的user是否相同(id為字串，userId為數字，型態一致才可比較，且要能通過R03測試，故將id轉為數字)
+    if (Number(id) !== userId) throw new Error('Permission denied!')
+
+    return Promise.all([
+      User.findByPk(id),
+      localFileHandler(file)
+    ])
+      .then(([user, filePath]) => {
+        if (!user) throw new Error("User didn't exist!")
+        return user.update({
+          name,
+          image: filePath || user.image
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '使用者資料編輯成功')
+        return res.redirect(`/users/${id}`)
+      })
+      .catch(err => next(err))
+  }
 }
 module.exports = userController
