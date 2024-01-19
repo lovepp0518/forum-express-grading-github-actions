@@ -1,7 +1,6 @@
 const { localFileHandler } = require('../helpers/file-helpers')
 const bcrypt = require('bcryptjs')
-const db = require('../models')
-const { User } = db
+const { Restaurant, Comment, User } = require('../models')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -44,9 +43,12 @@ const userController = {
   getUser: (req, res, next) => {
     const id = req.params.id
     return User.findByPk(id, {
-      raw: true
+      include: { model: Comment, include: Restaurant }
     })
-      .then(user => res.render('users/profile', { user }))
+      .then(user => {
+        user = user.toJSON()
+        res.render('users/profile', { user })
+      })
       .catch(err => next(err))
   },
   editUser: (req, res, next) => {
