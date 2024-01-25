@@ -1,6 +1,6 @@
-const { localFileHandler } = require('../helpers/file-helpers')
+const { localFileHandler } = require('../../helpers/file-helpers')
 const bcrypt = require('bcryptjs')
-const { Restaurant, Comment, User, Favorite, Like, Followship } = require('../models')
+const { Restaurant, Comment, User, Favorite, Like, Followship } = require('../../models')
 
 const userController = {
   signUpPage: (req, res) => {

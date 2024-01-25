@@ -1,5 +1,5 @@
-const { localFileHandler } = require('../helpers/file-helpers')
-const { Restaurant, User, Category } = require('../models')
+const { localFileHandler } = require('../../helpers/file-helpers')
+const { Restaurant, User, Category } = require('../../models')
 
 const adminController = {
 
