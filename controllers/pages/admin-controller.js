@@ -1,10 +1,11 @@
+const adminServices = require('../../services/admin-services')
 const { localFileHandler } = require('../../helpers/file-helpers')
 const { Restaurant, User, Category } = require('../../models')
 
 const adminController = {
 
   getRestaurants: (req, res, next) => {
-    restaurantServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', { status: 'success', data }))
+    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', { status: 'success', data }))
   },
   createRestaurant: (req, res, next) => {
     return Category.findAll({
@@ -14,10 +15,12 @@ const adminController = {
       .catch(err => next(err))
   },
   postRestaurant: (req, res, next) => {
-    if (err) return next(err)
-    req.flash('success_messages', 'restaurant was successfully created')
-    req.session.createdData = data
-    return res.redirect('/admin/restaurants')
+    adminServices.postRestaurant(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', 'restaurant was successfully created')
+      req.session.createdData = data
+      return res.redirect('/admin/restaurants')
+    })
   },
   getRestaurant: (req, res, next) => {
     Restaurant.findByPk(req.params.id, {
