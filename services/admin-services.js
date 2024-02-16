@@ -9,14 +9,12 @@ const adminController = {
       nest: true,
       include: [Category]
     })
-      .then(restaurants => {
-        const data = restaurants
-        return cb(null, { restaurants: data })
-      })
+      .then(restaurants => cb(null, { restaurants }))
       .catch(err => cb(err))
   },
   postRestaurant: (req, cb) => {
     const { name, tel, address, openingHours, description, categoryId } = req.body
+    console.log(req.body)
     if (!name) throw new Error('Restaurant name is required!')
     const { file } = req
     localFileHandler(file)

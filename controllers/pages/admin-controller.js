@@ -5,7 +5,7 @@ const { Restaurant, User, Category } = require('../../models')
 const adminController = {
 
   getRestaurants: (req, res, next) => {
-    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', { status: 'success', data }))
+    adminServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('admin/restaurants', data))
   },
   createRestaurant: (req, res, next) => {
     return Category.findAll({
@@ -18,7 +18,6 @@ const adminController = {
     adminServices.postRestaurant(req, (err, data) => {
       if (err) return next(err)
       req.flash('success_messages', 'restaurant was successfully created')
-      req.session.createdData = data
       return res.redirect('/admin/restaurants')
     })
   },

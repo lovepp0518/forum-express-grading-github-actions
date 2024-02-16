@@ -56,7 +56,7 @@ const restaurantServices = {
         const isLiked = restaurant.FavoritedUsers.some(l => l.id === req.user.id)
         const data = restaurant.toJSON()
         return cb(null, {
-          restaurants: data,
+          restaurant: data,
           isFavorited,
           isLiked
         })
