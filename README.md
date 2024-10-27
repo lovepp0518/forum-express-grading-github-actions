@@ -1,6 +1,8 @@
 # 餐廳論壇
 這是一個可以查看或留下餐廳評論的平台。
 
+<img width="1440" alt="餐廳論壇截圖" src="https://github.com/user-attachments/assets/7f13bdb5-ae33-41a8-aa00-ca26b3c4c0f0">
+
 ## 功能
 身份驗證、使用者評論餐廳、使用者收藏餐廳、使用者可依分類檢視餐廳列表、網站後台、分頁器
 
